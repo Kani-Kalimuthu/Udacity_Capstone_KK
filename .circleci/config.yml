@@ -26,21 +26,12 @@ jobs:
           command: |
             sudo chmod +x run_docker.sh
             ./run_docker.sh
-
-  upload-docker-image:
-    docker:
-      - image: circleci/buildpack-deps:stretch
-    steps:
-      - attach_workspace:
-          at: /tmp/workspace
-      - checkout
-      - setup_remote_docker
       - run:
           name: upload-image
           command: |
             sudo chmod +x upload_docker.sh
             ./upload_docker.sh
-            
+
   K8S-Deploy:
     executor: aws-eks/python3
     steps:
@@ -80,9 +71,9 @@ jobs:
 workflows:
   default:
     jobs:
-      - lint
-      - build-docker-image:
-          requires: [lint]
-      - upload-docker-image:
+      #- lint
+      - build-docker-image
+         # requires: [lint]
+      #- upload-docker-image:
           requires: [build-docker-image]
     

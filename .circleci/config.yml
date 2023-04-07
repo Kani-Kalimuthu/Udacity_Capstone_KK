@@ -129,7 +129,7 @@ workflows:
   default:
     jobs:
       - build
-      #- build-docker-image:
+      ##- build-docker-image:
           #requires: [lint]
       #- create-cluster:
       #- deploy-cluster:

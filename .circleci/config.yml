@@ -138,10 +138,12 @@ jobs:
         - aws-eks/update-kubeconfig-with-authenticator:
             cluster-name: capstone-kk
             install-kubectl: true
-        - kubernetes/create-or-update-resource:
+        - kubernetes/update-container-image:
             get-rollout-status: true
-            resource-file-path: deployment.yml
-            resource-name: deployment/capstone
+            resource-name: deployment/udacity-devops-capstone
+        - kubernetes/create-or-update-resource:
+            resource-file-path: service.yml
+            resource-name: service/udacity-devops-capstone
 
   check-cluster:
     executor: aws-eks/python3

@@ -1,15 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: capstone-sample-app
+  name: udacity-devops-capstone
   labels:
-    name: capstone-sample-app
+    app: web
 spec:
-  selector:
-    app: capstone-sample-app
   type: LoadBalancer
   ports:
-    - name: http
-      port: 8080
-      targetPort: 8080
-      protocol: TCP
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: web

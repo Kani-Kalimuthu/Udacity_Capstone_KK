@@ -1,29 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: capstone-sample-app
+  name: udacity-devops-capstone
   labels:
-    app: capstone-sample-app
+    app: web
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: capstone-sample-app
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      app: web
   template:
     metadata:
       labels:
-        app: capstone-sample-app
+        app: web
     spec:
       containers:
-        - image: kanikalimuthu/image_capstone_kk
-          name: capstone-sample-app
-          ports:
-            - containerPort: 8080
-              name: http-server
-      imagePullSecrets:
-        - name: ecr-secret
+      - name: udacity-devops-capstone-container
+        image: kanikalimuthu/image_capstone_kk:latest
+        ports:
+        - containerPort: 8080

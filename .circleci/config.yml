@@ -123,7 +123,7 @@ jobs:
             name: AWS EKS cluster creation
             command: |
              #eksctl create cluster -f cluster.yml
-             eksctl create cluster --name kani-capstone --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d 
+             eksctl create cluster --name capstone-kk --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d 
               
         - run:
             name: AWS EKS get cluster creation

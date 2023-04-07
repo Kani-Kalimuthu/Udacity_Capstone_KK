@@ -16,7 +16,8 @@ jobs:
             make all
                            
   build-docker-image:
-    executor: docker-publisher
+    docker:
+      - image: circleci/buildpack-deps:stretch
     steps:
       - checkout
       - setup_remote_docker
@@ -27,7 +28,8 @@ jobs:
             ./run_docker.sh
 
   upload-docker-image:
-    executor: docker-publisher
+    docker:
+      - image: circleci/buildpack-deps:stretch
     steps:
       - attach_workspace:
           at: /tmp/workspace

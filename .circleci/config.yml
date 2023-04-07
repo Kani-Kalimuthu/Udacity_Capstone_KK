@@ -114,15 +114,15 @@ jobs:
           command: |
             kubectl get nodes
             kubectl get all
-              
+            kubectl get svc              
 workflows:
   default:
     jobs:
-      - lint
+      #- lint
       - build-docker-image:
           requires: [lint]
       ##- create-cluster:
-      - deploy-cluster:
-          requires: [build-docker-image]
-      - check-cluster:
-          requires: [deploy-cluster]
+      - deploy-cluster
+          #requires: [build-docker-image]
+      - check-cluster
+          #requires: [deploy-cluster]

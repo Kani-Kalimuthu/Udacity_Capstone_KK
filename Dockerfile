@@ -10,6 +10,6 @@ ARG version
 
 ENV BUILD_VERSION=$version
 
-Expose 8080
+Expose 80
 
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]

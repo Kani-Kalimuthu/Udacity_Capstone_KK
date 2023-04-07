@@ -18,4 +18,4 @@ spec:
       - name: udacity-devops-capstone-container
         image: kanikalimuthu/image_capstone_kk:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 80

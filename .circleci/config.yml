@@ -174,7 +174,7 @@ workflows:
           #requires:
             #- aws-eks/create-cluster
       #- create-cluster
-      - deploy-cluster
+      #- deploy-cluster
           #requires: [create-cluster]
-      - check-cluster:
-          requires: [deploy-cluster]
+      - check-cluster
+          #requires: [deploy-cluster]

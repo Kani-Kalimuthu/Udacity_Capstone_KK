@@ -181,7 +181,7 @@ workflows:
           #cluster-name: capstone-kk
           #requires:
             #- aws-eks/create-cluster
-      - create cluster
+      - create-cluster
       #- deploy-cluster: 
           #requires: [create-cluster]
       #- check-cluster:

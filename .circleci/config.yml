@@ -75,5 +75,5 @@ workflows:
       - build-docker-image
          # requires: [lint]
       #- upload-docker-image:
-          requires: [build-docker-image]
+          #requires: [build-docker-image]
     

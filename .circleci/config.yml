@@ -132,10 +132,6 @@ jobs:
 
   deploy-cluster:
       executor: aws-eks/python3
-      parameters:
-        cluster-name: capstone-kk
-          description: capstone
-          type: string
       steps:
         - checkout
         - kubernetes/install

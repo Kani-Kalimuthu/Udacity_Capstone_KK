@@ -1,44 +1,88 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
-version: 2
+version: 2.1
+
+orbs:
+  aws-eks: circleci/aws-eks@1.1.0
+  kubernetes: circleci/kubernetes@0.12.0
+  
 jobs:
-  build:
+  lint:
     docker:
-    # Use the same Docker base as the project
       - image: python:3.7.3-stretch
-        
-        working_directory: ~/apps
-      
     steps:
       - checkout
-      
-    # ##Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-    
       - run:
-          name: install dependencies
+          name: Back-end lint
           command: |
-            python3 -m venv venv
-            . venv/bin/activate
-            make install
-            ## Install hadolint
-            wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
-            chmod +x /bin/hadolint
-            
-      - save_cache:
+            make all
+                           
+  build-image:
+    executor: docker-publisher
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: build-image
+          command: |
+            sudo chmod +x run_docker.sh
+            ./run_docker.sh
+      - persist_to_workspace:
+          root: .
           paths:
-            - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
-        
-        # run lint!
+            - ./image.tar      
+  push-image:
+    executor: docker-publisher
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - checkout
+      - setup_remote_docker
       - run:
-          name: run lint
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/image.tar
+      - run:
+          name: push-image
           command: |
-            . venv/bin/activate
-            make lint
+            sudo chmod +x upload_docker.sh
+            ./upload_docker.sh
+            
+  K8S-Deploy:
+    executor: aws-eks/python3
+    steps:
+      - checkout
+      - kubernetes/install
+      - run:
+          name: Install the awscli tool the eksctl tool
+          command: |
+            pip install -U awscli
+            if which eksctl > /dev/null; then
+              echo "eksctl is already installed"
+              exit 0
+            fi
+            mkdir -p eksctl_download
+            curl --silent --location --retry 5 "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" \
+              | tar xz -C eksctl_download
+            chmod +x eksctl_download/eksctl
+            SUDO=""
+            if [ $(id -u) -ne 0 ] && which sudo > /dev/null ; then
+              SUDO="sudo"
+            fi
+            $SUDO mv eksctl_download/eksctl /usr/local/bin/
+            rmdir eksctl_download
+      - aws-eks/create-cluster:
+          cluster-name: capstoneproject05
+          aws-region: us-west-2
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: capstoneproject05
+          aws-region: us-west-2
+      - kubernetes/create-or-update-resource:
+          resource-file-path: k8s/deployment.yml
+          resource-name: deployment/capstone-sample-app
+      - kubernetes/create-or-update-resource:
+          resource-file-path: k8s/service.yml
+          resource-name: service/capstone-sample-app
+                
+workflows:
+  default:
+    jobs:
+      - lint
+    

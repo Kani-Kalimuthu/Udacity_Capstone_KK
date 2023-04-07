@@ -160,5 +160,5 @@ workflows:
           requires: [build-docker-image]
       - check-cluster:
           requires: [deploy-cluster]
-      - eks-rolling-deployment:
-          requires: [check-cluster]
+      #- eks-rolling-deployment:
+          #requires: [check-cluster]

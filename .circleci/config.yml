@@ -148,7 +148,7 @@ jobs:
             echo '---------- pod ---------------------'
             kubectl get pod
             echo "----load balancer after rolling deployment----"
-            kubectl get svc -o jsonpath='{ $.items[*].status.loadBalancer}' | cut -b 26-68          
+            #kubectl get svc -o jsonpath='{ $.items[*].status.loadBalancer}' | cut -b 26-68          
 workflows:
   default:
     jobs:

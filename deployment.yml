@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: udacity-devops-capstone
+  name: udacity-devops-capstone1
   labels:
     app: web
 spec:
@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: udacity-devops-capstone-container
-        image: kanikalimuthu/image_capstone_kk:latest
+        image: kanikalimuthu/image_capstone_kk_new:latest
         ports:
         - containerPort: 80

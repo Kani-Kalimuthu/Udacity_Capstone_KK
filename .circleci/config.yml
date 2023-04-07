@@ -99,10 +99,10 @@ jobs:
         - kubernetes/create-or-update-resource:
             get-rollout-status: true
             resource-file-path: deployment.yml
-            resource-name: deployment/udacity-devops-capstone
+            resource-name: deployment/udacity-devops-capstone1
         - kubernetes/create-or-update-resource:
             resource-file-path: service.yml
-            resource-name: service/udacity-devops-capstone
+            resource-name: service/udacity-devops-capstone1
 
   check-cluster:
     executor: aws-eks/python3

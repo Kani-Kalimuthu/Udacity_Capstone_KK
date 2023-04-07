@@ -116,7 +116,7 @@ workflows:
       #- upload-docker-image:
           #requires: [build-docker-image]
       - create-cluster
-      - deploy-cluster: 
-          requires: [create-cluster]
-      - check-cluster:
-          requires: [deploy-cluster]
+      #- deploy-cluster: 
+          #requires: [create-cluster]
+      #- check-cluster:
+         # requires: [deploy-cluster]

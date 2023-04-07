@@ -127,8 +127,6 @@ workflows:
       - lint
       - build-docker-image:
           requires: [lint]
-      - upload-docker-image:
-          requires: [build-docker-image]
       #- create-cluster:
       - deploy-cluster:
           requires: [upload-docker-image]

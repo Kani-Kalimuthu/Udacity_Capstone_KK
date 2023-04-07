@@ -122,19 +122,18 @@ jobs:
         - run:
             name: AWS EKS cluster creation
             command: |
-             #eksctl create cluster -f cluster.yml
              eksctl create cluster --name capstone-kk --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d 
               
         - run:
             name: AWS EKS get cluster creation
             command: |
-              #eksctl utils describe-stacks --region us-east-1 --cluster=kani-capstone
-              #eksctl get cluster --name=kani-capstone --region=us-east-1
+              eksctl utils describe-stacks --region us-east-1 --cluster=capstone-kk
+              eksctl get cluster --name=capstone-kk --region=us-east-1
 
   deploy-cluster:
       executor: aws-eks/python3
       parameters:
-        cluster-name:
+        cluster-name: capstone-kk
           description: |
             capstone
           type: string
@@ -142,7 +141,7 @@ jobs:
         - checkout
         - kubernetes/install
         - aws-eks/update-kubeconfig-with-authenticator:
-            cluster-name: << parameters.cluster-name >>
+            cluster-name: capstone-kk
             install-kubectl: true
         - kubernetes/create-or-update-resource:
             get-rollout-status: true
@@ -181,8 +180,8 @@ workflows:
           #cluster-name: capstone-kk
           #requires:
             #- aws-eks/create-cluster
-      - create-cluster
-      #- deploy-cluster: 
+      #- create-cluster
+      - deploy-cluster
           #requires: [create-cluster]
       #- check-cluster:
          # requires: [deploy-cluster]

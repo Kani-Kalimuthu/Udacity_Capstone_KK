@@ -68,9 +68,9 @@ jobs:
         - run:
             name: AWS EKS cluster creation
             command: |
-              eksctl create cluster --name capstone_kk --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d
-              eksctl utils describe-stacks --region us-east-1 --cluster=capstone_kk
-              eksctl get cluster --name=capstone_kk --region=us-east-1
+              eksctl create cluster --name capstone-kk --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d
+              eksctl utils describe-stacks --region us-east-1 --cluster=capstone-kk
+              eksctl get cluster --name=capstone-kk --region=us-east-1
 
   deploy-cluster:
       executor: aws-eks/python3

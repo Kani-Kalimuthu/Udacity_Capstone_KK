@@ -79,6 +79,6 @@ workflows:
   default:
     jobs:
       #- lint
-      -build-docker-image
-      -upload-docker-image
+      - build-docker-image
+      - upload-docker-image
     

@@ -1,9 +1,10 @@
 from flask import Flask
-import os 
-
 app = Flask(__name__)
 
+
 @app.route('/')
-def print_env_build_number():
-    version = os.environ.get("BUILD_VERSION", default="DEV")
-    return f"Hello, World! <br> <b>Build version = <i>{version}</i></b>"
+def hello():
+    return "Hello World! Kani Kalimuthu's Capstone Project"
+
+if __name__ == '__main__':
+   app.run(host='0.0.0.0', port=80, debug=True)

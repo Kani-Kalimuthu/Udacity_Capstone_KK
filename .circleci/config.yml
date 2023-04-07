@@ -15,7 +15,7 @@ jobs:
           command: |
             make all
                            
-  build-image:
+  build-docker-image:
     executor: docker-publisher
     steps:
       - checkout
@@ -25,11 +25,8 @@ jobs:
           command: |
             sudo chmod +x run_docker.sh
             ./run_docker.sh
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./image.tar      
-  push-image:
+
+  upload-docker-image:
     executor: docker-publisher
     steps:
       - attach_workspace:
@@ -37,10 +34,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Load archived Docker image
-          command: docker load -i /tmp/workspace/image.tar
-      - run:
-          name: push-image
+          name: upload-image
           command: |
             sudo chmod +x upload_docker.sh
             ./upload_docker.sh
@@ -84,5 +78,7 @@ jobs:
 workflows:
   default:
     jobs:
-      - lint
+      #- lint
+      -build-docker-image
+      -upload-docker-image
     

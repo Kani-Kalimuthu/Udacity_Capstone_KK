@@ -1,6 +1,6 @@
 install:
 	pip install --upgrade pip &&\
-		pip install -r app/requirements.txt
+		pip install -r apps/requirements.txt
 	# Install hadolint
 	wget -O ./hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
 	chmod +x ./hadolint

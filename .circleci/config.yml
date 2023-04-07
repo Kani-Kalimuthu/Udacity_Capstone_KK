@@ -59,7 +59,7 @@ create-cluster:
             fi
                 $SUDO mv src/eksctl /usr/local/bin/
                 rmdir src
-       - run:
+      - run:
           name: install_kubectl
           command: |
             curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"

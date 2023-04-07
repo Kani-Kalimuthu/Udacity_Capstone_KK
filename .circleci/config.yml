@@ -5,7 +5,7 @@ orbs:
   kubernetes: circleci/kubernetes@0.12.0
   
 jobs:
-  build:
+  lint:
     docker:
       - image: circleci/python:3.6.4
     steps:
@@ -25,17 +25,7 @@ jobs:
           command: |
             . capstone/bin/activate
             make lint
-  
-  lint:
-    docker:
-      - image: python:3.7.3-stretch
-    steps:
-      - checkout
-      - run:
-          name: Back-end lint
-          command: |
-            make all
-                           
+    
   build-docker-image:
     docker:
       - image: circleci/buildpack-deps:stretch
@@ -128,11 +118,11 @@ jobs:
 workflows:
   default:
     jobs:
-      - build
-      ##- build-docker-image:
-          #requires: [lint]
+      - lint
+      - build-docker-image:
+          requires: [lint]
       #- create-cluster:
-      #- deploy-cluster:
-          #requires: [build-docker-image]
-      #- check-cluster:
-          #requires: [deploy-cluster]
+      - deploy-cluster:
+          requires: [build-docker-image]
+      - check-cluster:
+          requires: [deploy-cluster]

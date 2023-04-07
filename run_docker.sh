@@ -14,4 +14,4 @@ docker image ls
 
 # Step 3: 
 # Run flask app
-#nohub docker run -p 80:8080 image_capstone_kk
+docker run -p 80:80 image_capstone_kk

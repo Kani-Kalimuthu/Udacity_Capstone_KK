@@ -134,8 +134,7 @@ jobs:
       executor: aws-eks/python3
       parameters:
         cluster-name: capstone-kk
-          description: |
-            capstone
+          description: capstone
           type: string
       steps:
         - checkout

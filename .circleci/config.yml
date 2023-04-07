@@ -1,36 +1,45 @@
-version: 2.1
-
-orbs:
-  docker: circleci/docker@1.5.0
-
+# Python CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-python/ for more details
+#
+version: 2
 jobs:
-  init:
+  build:
     docker:
+    # Use the same Docker base as the project
       - image: python:3.7.3-stretch
+        
+        working_directory: ~/repo
+      
     steps:
       - checkout
-      # Download and cache dependencies
+      
+    # ##Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "apps/requirements.txt" }}
+            - v1-dependencies-{{ checksum "requirements.txt" }}
             # fallback to using the latest cache if no exact match is found
-            # - v1-dependencies-
+            - v1-dependencies-
+    
       - run:
-          name: Install dependencies
+          name: install dependencies
           command: |
-            python3 -m venv .devops-capstone
-            source .devops-capstone/bin/activate
+            /home/circleci/.pyenv/versions/3.10.2/bin/python3.10 -m pip install --upgrade pip
+            python3 -m venv venv
+            . venv/bin/activate
             make install
+            ## Install hadolint
+             wget -O /bin/hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
+             chmod +x /bin/hadolint
+            
       - save_cache:
           paths:
-            - ./.devops-capstone  # TODO: Include in cache the "bin" directory
-          key: v1-dependencies-{{ checksum "apps/requirements.txt" }}
+            - ./venv
+          key: v1-dependencies-{{ checksum "requirements.txt" }}
+        
+        # run lint!
       - run:
-          name: Run lint
+          name: run lint
           command: |
-            source .devops-capstone/bin/activate
-            make lint 
-workflows:
-  default:
-    jobs:
-      - init
+            . venv/bin/activate
+            make lint

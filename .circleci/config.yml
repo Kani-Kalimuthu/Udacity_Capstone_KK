@@ -122,14 +122,14 @@ jobs:
         - run:
             name: AWS EKS cluster creation
             command: |
-             eksctl create cluster -f cluster.yml
-             # eksctl create cluster --name kani-capstone --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d
+             #eksctl create cluster -f cluster.yml
+             eksctl create cluster --name kani-capstone --region us-east-1 --zones us-east-1a,us-east-1b,us-east-1c,us-east-1d 
               
         - run:
             name: AWS EKS get cluster creation
             command: |
-              eksctl utils describe-stacks --region us-east-1 --cluster=kani-capstone
-              eksctl get cluster --name=kani-capstone --region=us-east-1
+              #eksctl utils describe-stacks --region us-east-1 --cluster=kani-capstone
+              #eksctl get cluster --name=kani-capstone --region=us-east-1
 
   deploy-cluster:
       executor: aws-eks/python3
@@ -174,12 +174,14 @@ workflows:
          # requires: [lint]
       #- upload-docker-image:
           #requires: [build-docker-image]
-      - aws-eks/create-cluster:
-          cluster-name: capstone-kk
-      - test-cluster:
-          cluster-name: capstone-kk
-          requires:
-            - aws-eks/create-cluster
+      #- Deploy
+      #- aws-eks/create-cluster:
+          #cluster-name: capstone-kk
+      #- test-cluster:
+          #cluster-name: capstone-kk
+          #requires:
+            #- aws-eks/create-cluster
+      - create cluster
       #- deploy-cluster: 
           #requires: [create-cluster]
       #- check-cluster:

@@ -130,7 +130,7 @@ jobs:
       - checkout
       - kubernetes/install-kubectl
       - aws-cli/setup
-      - install-eksctl 
+      #- install-eksctl 
       - run:
           name: Rolling Deployment      
           command: |                      

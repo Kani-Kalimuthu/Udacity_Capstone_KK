@@ -3,11 +3,13 @@ kind: Service
 metadata:
   name: udacity-devops-capstone
   labels:
-    app: web
+    app: capstone
 spec:
-  type: LoadBalancer
-  ports:
-  - port: 8080
-    targetPort: 8080
   selector:
-    app: web
+    app: capstone
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
